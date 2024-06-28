@@ -2,8 +2,8 @@ pipeline {
     agent any
 
     environment {
-        laptop-backend = 'backend'
-        laptop-frontend = 'frontend'
+        laptop_backend = 'backend'
+        laptop_frontend = 'frontend'
         DOCKER_CREDENTIALS_ID = 'madhavih'
         GIT_CREDENTIALS_ID = 'PATToken'  // Update with your new credential ID
         GIT_REPO = 'https://github.com/MadhaviHindagoda/laptopdonation.git'
@@ -17,30 +17,34 @@ pipeline {
                 }
             }
         }
-        // Add other stages as needed
+        
         stage('Build Frontend Docker Image') {
             steps {
                 script {
-                    docker.build("${env.laptop-frontend}", 'frontend')
+                    docker.build("${env.laptop_frontend}", '.')  // Assuming Dockerfile is in the root
                 }
             }
         }
+
         stage('Build Backend Docker Image') {
             steps {
                 script {
-                    docker.build("${env.laptop-backend}", 'backend')
+                    docker.build("${env.laptop_backend}", '.')  // Assuming Dockerfile is in the root
                 }
             }
         }
+
         stage('Push Docker Images') {
             steps {
                 script {
-                    docker.withRegistry('', env.DOCKER_CREDENTIALS_ID) {
-                        docker.image("${env.docker-backend}").push()
-                        docker.image("${env.docker-frontend}").push()
+                    docker.withRegistry('https://registry.hub.docker.com', env.DOCKER_CREDENTIALS_ID) {
+                        docker.image("${env.laptop_backend}").push()
+                        docker.image("${env.laptop_frontend}").push()
+                    }
                 }
             }
         }
+
         stage('Deploy') {
             steps {
                 script {
