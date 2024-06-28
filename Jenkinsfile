@@ -5,7 +5,7 @@ pipeline {
         DOCKER_IMAGE_BACKEND = 'your-dockerhub-username/mern-backend'
         DOCKER_IMAGE_FRONTEND = 'your-dockerhub-username/mern-frontend'
         DOCKER_CREDENTIALS_ID = 'your-docker-credentials-id'
-        GIT_REPO = 'https://github.com/YourUsername/YourMERNProject.git'
+        GIT_REPO = 'https://github.com/MadhaviHindagoda/laptopdonation.git'
     }
 
     stages {
