@@ -125,7 +125,7 @@ const GetAll = () => {
             onClick={()=>{
                 getProductsSearch()
             }}
-            >Search</Button>
+            >NewChange</Button>
      <Button variant="contained"  className="logout__button" onClick={(e) => Logout(e)}
             style={{
              marginLeft:"410px"

@@ -1,23 +1,37 @@
-version: '3.4'
-
+version: "3"
 services:
-
-  frontend:
-  
-    build: ./frontend  
-    
-    volumes:
-      - ./frontend:/app  
+  client:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:3000"  
-  backend:
-    build: ./backend  
-    
+      - "3000:3000"
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongodb
     environment:
-      DATABASE_HOST: "localhost"
-      DATABASE_USER: "laptop"
-      DATABASE_PASSWORD: "Sanj1999.."  
-    ports:
-      - "3001:3001"  
+      - MONGO_URL=mongodb://127.0.0.1:27017/laptop
+    volumes:
+      - .:/usr/src/backend  
 
-      
+  mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+networks:
+  default:
+    driver: bridge

@@ -1,20 +1,20 @@
-# Use the official Node.js image.
-FROM node:lts-alpine
+# Use the official Node.js 18 image as base
+FROM node:18
 
-# Set the working directory.
-WORKDIR /frontend/src
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-# Copy the package.json and package-lock.json files.
+# Copy package.json and package-lock.json 
 COPY package*.json ./
 
-# Install dependencies.
+# Install dependencies
 RUN npm install
 
-# Copy the rest of the application code.
+# Copy the rest of the application
 COPY . .
 
-# Expose the port the app runs on.
+# Expose port 3000 to the outside world
 EXPOSE 3000
 
-# Define the command to run the application.
-CMD ["node", "index.js"]
+# Command to run the application
+CMD ["npm", "start"]
